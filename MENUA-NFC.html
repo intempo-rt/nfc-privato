@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MenuA NFC</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f0f0; }
+        .container { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px; margin: 40px auto; text-align: center; }
+        h1 { color: #333; }
+        #password-section { margin-bottom: 20px; }
+        #password-input { padding: 10px; width: 150px; margin-right: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        #links-section { display: none; /* Nascosto inizialmente */ }
+        .link-button { display: block; background-color: #5cb85c; color: white; padding: 12px; margin: 10px 0; text-decoration: none; border-radius: 4px; transition: background-color 0.3s; }
+        .link-button:hover { background-color: #4cae4c; }
+        #error-message { color: red; margin-top: 10px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bitwarden</h1>
+
+        <div id="password-section">
+            <label for="password-input">Inserisci PIN (4 cifre):</label><br><br>
+            <input type="password" id="password-input" maxlength="4" pattern="\d{4}" inputmode="numeric">
+            <button onclick="checkPassword()">Accedi</button>
+            <p id="error-message" style="display: none;">PIN errato!</p>
+        </div>
+
+        <div id="links-section">
+            <h2>Seleziona un Link:</h2>
+            <!-- === MODIFICA I LINK QUI SOTTO === -->
+            <a href="https://vault.bitwarden.com/" class="link-button" target="_blank">Bitwarden</a>
+                        <!-- === FINE SEZIONE LINK MODIFICABILI === -->
+        </div>
+    </div>
+
+    <script>
+        // === MODIFICA LA PASSWORD QUI (4 caratteri) ===
+        const correctPassword = "3725"; // CAMBIA QUESTA PASSWORD!
+        // === FINE SEZIONE PASSWORD MODIFICABILE ===
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('password-input').value;
+            const passwordSection = document.getElementById('password-section');
+            const linksSection = document.getElementById('links-section');
+            const errorMessage = document.getElementById('error-message');
+
+            if (inputPassword === correctPassword) {
+                passwordSection.style.display = 'none'; // Nasconde sezione password
+                linksSection.style.display = 'block'; // Mostra sezione link
+                errorMessage.style.display = 'none'; // Nasconde messaggio errore
+            } else {
+                errorMessage.style.display = 'block'; // Mostra messaggio errore
+                document.getElementById('password-input').value = ''; // Svuota campo password
+            }
+        }
+
+         // Opzionale: Permette l'invio con Invio
+         document.getElementById('password-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Impedisce l'invio form standard (se ci fosse)
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
